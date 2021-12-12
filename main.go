@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
@@ -21,7 +22,7 @@ func main() {
 	api := slack.New(token)
 	_, timestamp, err := api.PostMessage(
 		channelID,
-		slack.MsgOptionText("Botによる通知です", false),
+		slack.MsgOptionText(message(), false),
 		slack.MsgOptionAsUser(true),
 	)
 
@@ -31,4 +32,10 @@ func main() {
 	}
 
 	fmt.Printf("Message successfully sent to channel %s at %s", channelID, timestamp)
+}
+
+func message() string {
+	flag.Parse()
+	msg := flag.Arg(0)
+	return msg
 }
